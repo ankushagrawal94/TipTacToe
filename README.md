@@ -30,7 +30,8 @@ The following **additional** features are implemented:
 Here's a walkthrough of implemented user stories:
 
 <img src='http://imgur.com/a/Dndbc' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-If link is broken, please try the direct link right [here](http://imgur.com/a/Dndbc) or http://imgur.com/a/Dndbc.
+
+If link is broken, please try the direct link right [here](http://i.imgur.com/O0a4ZnQ.gifv) or http://i.imgur.com/O0a4ZnQ.gifv 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
