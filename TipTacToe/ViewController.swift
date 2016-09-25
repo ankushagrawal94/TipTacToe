@@ -39,6 +39,13 @@ class ViewController: UIViewController {
             self.view.backgroundColor = UIColor.darkGray
         }
         
+        if let navFont = UIFont(name: "Papyrus", size: 26.0) {
+            let navBarAttributesDictionary: [String: AnyObject]? = [
+                NSForegroundColorAttributeName: UIColor.black,
+                NSFontAttributeName: navFont
+            ]
+            navigationController?.navigationBar.titleTextAttributes = navBarAttributesDictionary
+        }
 
     }
     

@@ -26,6 +26,14 @@ class SettingsViewController: UIViewController {
 
         let selectedTheme = defaults.string(forKey: "colorScheme")
         themeSelectorSC.selectedSegmentIndex = selectedTheme == "dark" ? 1 : 0
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let defaults = UserDefaults.standard
+        let selectedTheme = defaults.string(forKey: "colorScheme")
         
         if selectedTheme == "light" {
             self.navigationController?.navigationBar.barTintColor = UIColor(red: 47.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
@@ -34,7 +42,14 @@ class SettingsViewController: UIViewController {
             self.navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
             self.view.backgroundColor = UIColor.darkGray
         }
-
+        
+        if let navFont = UIFont(name: "Papyrus", size: 26.0) {
+            let navBarAttributesDictionary: [String: AnyObject]? = [
+                NSForegroundColorAttributeName: UIColor.black,
+                NSFontAttributeName: navFont
+            ]
+            navigationController?.navigationBar.titleTextAttributes = navBarAttributesDictionary
+        }
     }
     
     @IBAction func defaultTipPercentChanged(_ sender: AnyObject) {
