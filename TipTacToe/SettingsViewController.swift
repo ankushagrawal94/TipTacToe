@@ -24,8 +24,9 @@ class SettingsViewController: UIViewController {
         let selectedIndex = defaults.integer(forKey: "selectedIndex")
         tipPercentSC.selectedSegmentIndex = selectedIndex
 
-        let selectedTheme = defaults.string(forKey: "colorScheme")
-        themeSelectorSC.selectedSegmentIndex = selectedTheme == "dark" ? 1 : 0
+        if let selectedTheme = defaults.string(forKey: "colorScheme") {
+            themeSelectorSC.selectedSegmentIndex = selectedTheme == "dark" ? 1 : 0
+        }
 
     }
     
@@ -33,23 +34,10 @@ class SettingsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         let defaults = UserDefaults.standard
-        let selectedTheme = defaults.string(forKey: "colorScheme")
-        
-        if selectedTheme == "light" {
-            self.navigationController?.navigationBar.barTintColor = UIColor(red: 47.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
-            self.view.backgroundColor = UIColor.lightGray
-        } else {
-            self.navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
-            self.view.backgroundColor = UIColor.darkGray
+        if let selectedTheme = defaults.string(forKey: "colorScheme") {
+            loadTheme(selectedTheme: selectedTheme)
         }
         
-        if let navFont = UIFont(name: "Papyrus", size: 26.0) {
-            let navBarAttributesDictionary: [String: AnyObject]? = [
-                NSForegroundColorAttributeName: UIColor.black,
-                NSFontAttributeName: navFont
-            ]
-            navigationController?.navigationBar.titleTextAttributes = navBarAttributesDictionary
-        }
     }
     
     @IBAction func defaultTipPercentChanged(_ sender: AnyObject) {
@@ -60,16 +48,28 @@ class SettingsViewController: UIViewController {
 
     @IBAction func themeSelected(_ sender: AnyObject) {
         let defaults = UserDefaults.standard
-        let selectedTheme = colorSchemes[themeSelectorSC.selectedSegmentIndex]
         defaults.set(colorSchemes[themeSelectorSC.selectedSegmentIndex], forKey: "colorScheme")
         defaults.synchronize()
         
+        if let selectedTheme = defaults.string(forKey: "colorScheme") {
+            loadTheme(selectedTheme: selectedTheme)
+        }
+
+    }
+    
+    func loadTheme(selectedTheme: String) {
         if selectedTheme == "light" {
-            self.navigationController?.navigationBar.barTintColor = UIColor(red: 47.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
-            self.view.backgroundColor = UIColor.lightGray
+            self.navigationController?.navigationBar.barTintColor = UIColor(red: 41.0/255, green: 217.0/255, blue: 194.0/255, alpha: 1.0)
+            navigationController?.navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = UIColor.black
+            self.view.backgroundColor = UIColor(red: 1.0/255, green: 162.0/255, blue: 166.0/255, alpha: 1.0)
         } else {
-            self.navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
-            self.view.backgroundColor = UIColor.darkGray
+            self.navigationController?.navigationBar.barTintColor = UIColor(red: 47.0/255, green: 41.0/255, blue: 51.0/255, alpha: 1.0)
+            navigationController?.navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = UIColor.white
+            self.view.backgroundColor = UIColor(red: 47.0/255, green: 41.0/255, blue: 51.0/255, alpha: 1.0)
+        }
+        
+        if let navFont = UIFont(name: "Papyrus", size: 26.0) {
+            navigationController?.navigationBar.titleTextAttributes?[NSFontAttributeName] = navFont
         }
 
     }

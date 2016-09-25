@@ -14,7 +14,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var tipValueLabel: UILabel!
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var tipPercentSC: UISegmentedControl!
-
+    @IBOutlet weak var addTipView: UIView!
+    @IBOutlet weak var totalBillView: UIView!
+    
     let percents: Array = [10, 15, 20]
     var hasTextMovedUpFlag: Bool = false
     let currencyFormatter = NumberFormatter()
@@ -30,22 +32,10 @@ class ViewController: UIViewController {
         tipPercentSC.selectedSegmentIndex = selectedIndex
         
         
-        let colorScheme = defaults.string(forKey: "colorScheme")
-        if colorScheme == "light" {
-            self.navigationController?.navigationBar.barTintColor = UIColor(red: 47.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
-            self.view.backgroundColor = UIColor.lightGray
-        } else {
-            self.navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
-            self.view.backgroundColor = UIColor.darkGray
+        if let selectedTheme = defaults.string(forKey: "colorScheme") {
+            loadTheme(selectedTheme: selectedTheme)
         }
-        
-        if let navFont = UIFont(name: "Papyrus", size: 26.0) {
-            let navBarAttributesDictionary: [String: AnyObject]? = [
-                NSForegroundColorAttributeName: UIColor.black,
-                NSFontAttributeName: navFont
-            ]
-            navigationController?.navigationBar.titleTextAttributes = navBarAttributesDictionary
-        }
+
 
     }
     
@@ -80,38 +70,43 @@ class ViewController: UIViewController {
     @IBAction func billTextChanged(_ sender: AnyObject) {
         if (!hasTextMovedUpFlag){
             moveTextViewUp()
-            hasTextMovedUpFlag = true
         }
         calculateAndDisplayTip()
     }
     
     func calculateAndDisplayTip() {
         let tipPercentage: Int = self.percents[tipPercentSC.selectedSegmentIndex]
-        if billTextField.text! != "" {
-            let tipValue = Double (tipPercentage) * Double (billTextField.text!)! / 100
-            let billValue = Double (billTextField.text!)!
+        let billText = billTextField.text! == ""  ? "0.00" : billTextField.text!
+        let tipValue = Double (tipPercentage) * Double (billText)! / 100
+        let billValue = Double (billText)!
             
-            let tipValueNumber = NSNumber(value:tipValue)
-            let totalValueNumber = NSNumber(value:billValue+tipValue)
+        let tipValueNumber = NSNumber(value:tipValue)
+        let totalValueNumber = NSNumber(value:billValue+tipValue)
             
-            tipValueLabel.text = currencyFormatter.string(from: (tipValueNumber))
-            totalValueLabel.text = currencyFormatter.string(from: (totalValueNumber))
+        tipValueLabel.text = currencyFormatter.string(from: (tipValueNumber))
+        totalValueLabel.text = currencyFormatter.string(from: (totalValueNumber))
             
-            saveState()
-        }
+        saveState()
     }
     
     func moveTextViewUp() {
-        UIView.animate(withDuration: 0.7, delay: 1.0, options: .curveEaseOut, animations: {
+        hasTextMovedUpFlag = true
+        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseOut, animations: {
             self.billTextField.frame.origin.y -= 100
         }, completion: { finished in
             print("Text Field animated!")
+            self.addTipView.isHidden = false
+            self.totalBillView.isHidden = false
+            UIView.animate(withDuration: 0.5, animations: {
+                self.totalBillView.alpha = 1.0
+                self.totalValueLabel.alpha = 1.0
+            })
         })
     }
     
     func saveState() {
         let defaults = UserDefaults.standard
-        let billValue: Double = Double (billTextField.text!)!
+        let billValue: Double = Double (billTextField.text! == ""  ? "0.00" : billTextField.text!)!
         let tipPercent: Double = Double (self.percents[tipPercentSC.selectedSegmentIndex])
         let totalValue: Double = (1.0+tipPercent/100.0)*billValue
 
@@ -146,11 +141,30 @@ class ViewController: UIViewController {
                 billTextField.text = (String) (unpackedBillValue)
                 tipValueLabel.text = (String) (unpackedTipPercent * unpackedBillValue / 100.0)
                 totalValueLabel.text = (String) (unpackedTotalValue)
+                moveTextViewUp()
             }
+            
         } else {
             tipValueLabel.text = (String) (0)
             totalValueLabel.text = (String) (0)
         }
+    }
+    
+    func loadTheme(selectedTheme: String) {
+        if selectedTheme == "light" {
+            self.navigationController?.navigationBar.barTintColor = UIColor(red: 41.0/255, green: 217.0/255, blue: 194.0/255, alpha: 1.0)
+            navigationController?.navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = UIColor.black
+            self.view.backgroundColor = UIColor(red: 1.0/255, green: 162.0/255, blue: 166.0/255, alpha: 1.0)
+        } else {
+            self.navigationController?.navigationBar.barTintColor = UIColor(red: 47.0/255, green: 41.0/255, blue: 51.0/255, alpha: 1.0)
+            navigationController?.navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = UIColor.white
+            self.view.backgroundColor = UIColor(red: 47.0/255, green: 41.0/255, blue: 51.0/255, alpha: 1.0)
+        }
+        
+        if let navFont = UIFont(name: "Papyrus", size: 26.0) {
+            navigationController?.navigationBar.titleTextAttributes?[NSFontAttributeName] = navFont
+        }
+        
     }
 }
 
