@@ -28,12 +28,22 @@ class ViewController: UIViewController {
 
         let selectedIndex = defaults.integer(forKey: "selectedIndex")
         tipPercentSC.selectedSegmentIndex = selectedIndex
+        
+        
+        let colorScheme = defaults.string(forKey: "colorScheme")
+        if colorScheme == "light" {
+            self.navigationController?.navigationBar.barTintColor = UIColor(red: 47.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
+            self.view.backgroundColor = UIColor.lightGray
+        } else {
+            self.navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
+            self.view.backgroundColor = UIColor.darkGray
+        }
+        
+
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationController?.navigationBar.barTintColor = UIColor(red: 47.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
         
         loadState()
         

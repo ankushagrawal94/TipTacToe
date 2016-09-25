@@ -109,18 +109,39 @@
                                     <action selector="tipPercentValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="k0U-7l-bei"/>
                                 </connections>
                             </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Set Default" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PCA-dH-Aoi">
-                                <frame key="frameInset" minX="16" minY="72" width="137" height="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Default Tip" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PCA-dH-Aoi">
+                                <frame key="frameInset" minX="16" minY="72" width="135" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Color Scheme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Guq-h6-UiL">
+                                <frame key="frameInset" minX="16" minY="228" width="176" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="nB7-Sp-Oik">
+                                <frame key="frameInset" minX="16" minY="287" width="343" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Light"/>
+                                    <segment title="Dark"/>
+                                </segments>
+                                <connections>
+                                    <action selector="defaultTipPercentChanged:" destination="28S-72-g8n" eventType="valueChanged" id="5y1-gI-6fb"/>
+                                    <action selector="themeSelected:" destination="28S-72-g8n" eventType="valueChanged" id="sX1-BX-72m"/>
+                                    <action selector="tipPercentValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="VoH-OF-mXi"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Preferences" id="IX1-4B-5Vo"/>
                     <connections>
+                        <outlet property="themeSelectorSC" destination="nB7-Sp-Oik" id="JSs-ni-AdU"/>
                         <outlet property="tipPercentSC" destination="GsM-68-FXq" id="qUb-Wt-TbY"/>
                     </connections>
                 </viewController>
