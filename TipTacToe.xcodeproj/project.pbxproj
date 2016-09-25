@@ -13,6 +13,7 @@
 		ACD7F87F1D93948B006DD54E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACD7F87E1D93948B006DD54E /* Assets.xcassets */; };
 		ACD7F8821D93948B006DD54E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACD7F8801D93948B006DD54E /* LaunchScreen.storyboard */; };
 		ACFA93C51D93ACCB00436DA2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA93C41D93ACCB00436DA2 /* SettingsViewController.swift */; };
+		ACFA93CA1D973E2200436DA2 /* TipState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA93C91D973E2200436DA2 /* TipState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		ACD7F8811D93948B006DD54E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ACD7F8831D93948B006DD54E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACFA93C41D93ACCB00436DA2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		ACFA93C91D973E2200436DA2 /* TipState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		ACD7F8761D93948B006DD54E /* TipTacToe */ = {
 			isa = PBXGroup;
 			children = (
+				ACFA93C61D973DF900436DA2 /* entities */,
 				ACD7F8771D93948B006DD54E /* AppDelegate.swift */,
 				ACD7F8791D93948B006DD54E /* ViewController.swift */,
 				ACD7F87B1D93948B006DD54E /* Main.storyboard */,
@@ -65,6 +68,14 @@
 				ACD7F8831D93948B006DD54E /* Info.plist */,
 			);
 			path = TipTacToe;
+			sourceTree = "<group>";
+		};
+		ACFA93C61D973DF900436DA2 /* entities */ = {
+			isa = PBXGroup;
+			children = (
+				ACFA93C91D973E2200436DA2 /* TipState.swift */,
+			);
+			name = entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,6 +153,7 @@
 				ACD7F87A1D93948B006DD54E /* ViewController.swift in Sources */,
 				ACD7F8781D93948B006DD54E /* AppDelegate.swift in Sources */,
 				ACFA93C51D93ACCB00436DA2 /* SettingsViewController.swift in Sources */,
+				ACFA93CA1D973E2200436DA2 /* TipState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
