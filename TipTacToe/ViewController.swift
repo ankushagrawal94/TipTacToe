@@ -89,6 +89,7 @@ class ViewController: UIViewController {
             
             tipValueLabel.text = currencyFormatter.string(from: (tipValueNumber))
             totalValueLabel.text = currencyFormatter.string(from: (totalValueNumber))
+            
             saveState()
         }
     }
@@ -106,8 +107,12 @@ class ViewController: UIViewController {
         let billValue: Double = Double (billTextField.text!)!
         let tipPercent: Double = Double (self.percents[tipPercentSC.selectedSegmentIndex])
         let totalValue: Double = (1.0+tipPercent/100.0)*billValue
+
         let tipState = TipState(billValue: billValue, tipPercent: tipPercent, totalValue: totalValue)
         
+        // I know this code is unnecessary. Wanted to try saving a custom class into NSUserDefaults.
+        // Learned that is a waste of time...
+        // Next time i'll write a mapper that takes an object an coverts it to an NSDictionary
         let encodedBillValue = NSKeyedArchiver.archivedData(withRootObject: tipState.billValue) as NSData
         let encodedTipPercent = NSKeyedArchiver.archivedData(withRootObject: tipState.tipPercent) as NSData
         let encodedTotalValue = NSKeyedArchiver.archivedData(withRootObject: tipState.totalValue) as NSData
