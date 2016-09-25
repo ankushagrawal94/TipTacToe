@@ -60,7 +60,8 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onScreenTap(_ sender: AnyObject) {
-        view.endEditing(true)
+        // remmoving this to satisfy assignment requirements
+        // view.endEditing(true)
     }
     
     @IBAction func tipPercentValueChanged(_ sender: AnyObject) {
