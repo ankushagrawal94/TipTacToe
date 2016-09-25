@@ -17,6 +17,7 @@ class ViewController: UIViewController {
 
     let percents: Array = [10, 15, 20]
     var hasTextMovedUpFlag: Bool = false
+    let currencyFormatter = NumberFormatter()
 
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,14 +25,31 @@ class ViewController: UIViewController {
 
         let defaults = UserDefaults.standard
         defaults.synchronize()
+
         let selectedIndex = defaults.integer(forKey: "selectedIndex")
         tipPercentSC.selectedSegmentIndex = selectedIndex
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 47.0/255, green: 206.0/255, blue: 255.0/255, alpha: 1.0)
+        
         loadState()
+        
+        currencyFormatter.locale = NSLocale.current
+        currencyFormatter.numberStyle = .currency
+        
+        let tipText = tipValueLabel.text!.replacingOccurrences(of: "$", with: "")
+        let totalText = totalValueLabel.text!.replacingOccurrences(of: "$", with: "")
+        
+        let tipValue: NSNumber = NSNumber(value:(Double)(tipText)!)
+        let totalValue: NSNumber = NSNumber(value:(Double)(totalText)!)
+        
+        tipValueLabel.text = currencyFormatter.string(from: tipValue)
+        totalValueLabel.text = currencyFormatter.string(from: totalValue)
+        
+        billTextField.becomeFirstResponder()
     }
 
     @IBAction func onScreenTap(_ sender: AnyObject) {
@@ -53,10 +71,14 @@ class ViewController: UIViewController {
     func calculateAndDisplayTip() {
         let tipPercentage: Int = self.percents[tipPercentSC.selectedSegmentIndex]
         if billTextField.text! != "" {
-            let tipValue: Double = Double (tipPercentage) * Double (billTextField.text!)! / 100
-            let billValue: Double = Double (billTextField.text!)!
-            tipValueLabel.text = String(format: "$%.2f", tipValue)
-            totalValueLabel.text = String(format: "$%.2f", tipValue + billValue)
+            let tipValue = Double (tipPercentage) * Double (billTextField.text!)! / 100
+            let billValue = Double (billTextField.text!)!
+            
+            let tipValueNumber = NSNumber(value:tipValue)
+            let totalValueNumber = NSNumber(value:billValue+tipValue)
+            
+            tipValueLabel.text = currencyFormatter.string(from: (tipValueNumber))
+            totalValueLabel.text = currencyFormatter.string(from: (totalValueNumber))
             saveState()
         }
     }
@@ -92,17 +114,20 @@ class ViewController: UIViewController {
         if let tipStateEncoded: [NSData] = (defaults.object(forKey: "tipState") as? [NSData]) {
             let unpackedTimeStamp = NSKeyedUnarchiver.unarchiveObject(with: (tipStateEncoded[3] as NSData) as Data) as! NSDate
             let currentTime: Date = NSDate() as Date
+            
+            let unpackedBillValue = NSKeyedUnarchiver.unarchiveObject(with: (tipStateEncoded[0] as NSData) as Data) as! Double
+            let unpackedTipPercent = NSKeyedUnarchiver.unarchiveObject(with: (tipStateEncoded[1] as NSData) as Data) as! Double
+            let unpackedTotalValue = NSKeyedUnarchiver.unarchiveObject(with: (tipStateEncoded[2] as NSData) as Data) as! Double
+
             // Check if the last saved state is less than 10 minutes old
             if (unpackedTimeStamp.compare(currentTime.addingTimeInterval((-60*10))) == ComparisonResult.orderedDescending) {
-                let unpackedBillValue = NSKeyedUnarchiver.unarchiveObject(with: (tipStateEncoded[0] as NSData) as Data) as! Double
-                let unpackedTipPercent = NSKeyedUnarchiver.unarchiveObject(with: (tipStateEncoded[1] as NSData) as Data) as! Double
-                let unpackedTotalValue = NSKeyedUnarchiver.unarchiveObject(with: (tipStateEncoded[2] as NSData) as Data) as! Double
-                self.billTextField.text = (String) (unpackedBillValue)
-                tipValueLabel.text = "$" + (String) (unpackedTipPercent * unpackedBillValue / 100.0)
-                totalValueLabel.text = "$" + (String) (unpackedTotalValue)
+                billTextField.text = (String) (unpackedBillValue)
+                tipValueLabel.text = (String) (unpackedTipPercent * unpackedBillValue / 100.0)
+                totalValueLabel.text = (String) (unpackedTotalValue)
             }
-            
-            
+        } else {
+            tipValueLabel.text = (String) (0)
+            totalValueLabel.text = (String) (0)
         }
     }
 }
